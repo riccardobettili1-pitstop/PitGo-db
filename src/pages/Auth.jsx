@@ -6,6 +6,7 @@ export default function Auth() {
     const [isLogin, setIsLogin] = useState(true);
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
 
     // Dati form
     const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ export default function Auth() {
         e.preventDefault();
         setLoading(true);
         setErrorMsg('');
+        setSuccessMsg('');
 
         try {
             if (isLogin) {
@@ -35,19 +37,19 @@ export default function Auth() {
 
                 if (authError) throw authError;
 
-                if (authData.user) {
-                    // 2. Crea il record in 'shops' collegato
-                    const { error: shopError } = await supabase.from('shops').insert([
-                        {
-                            auth_user_id: authData.user.id,
-                            email: email,
-                            nome_officina: nomeOfficina,
-                            // Genera un QR code base
-                            codice_qr_url: Math.random().toString(36).substring(2, 10),
-                        }
-                    ]);
-                    if (shopError) throw shopError;
-                }
+                // 2. Crea il record in 'shops' collegato
+                const { error: shopError } = await supabase.from('shops').insert([
+                    {
+                        auth_user_id: authData.user?.id || 'pending',
+                        email: email,
+                        nome_officina: nomeOfficina,
+                        // Genera un QR code base
+                        codice_qr_url: Math.random().toString(36).substring(2, 10),
+                    }
+                ]);
+                if (shopError) throw shopError;
+
+                setSuccessMsg('Registrazione completata! Controlla la tua casella email per confermare l\'account.');
             }
         } catch (error) {
             setErrorMsg(error.message || 'Si è verificato un errore');
@@ -68,14 +70,14 @@ export default function Auth() {
                 <div className="auth-toggle">
                     <button
                         className={`toggle-btn ${isLogin ? 'active' : ''}`}
-                        onClick={() => setIsLogin(true)}
+                        onClick={() => { setIsLogin(true); setSuccessMsg(''); setErrorMsg(''); }}
                         type="button"
                     >
                         Accedi
                     </button>
                     <button
                         className={`toggle-btn ${!isLogin ? 'active' : ''}`}
-                        onClick={() => setIsLogin(false)}
+                        onClick={() => { setIsLogin(false); setSuccessMsg(''); setErrorMsg(''); }}
                         type="button"
                     >
                         Registrati
@@ -83,6 +85,7 @@ export default function Auth() {
                 </div>
 
                 {errorMsg && <div className="error-box">{errorMsg}</div>}
+                {successMsg && <div className="success-box">{successMsg}</div>}
 
                 <form onSubmit={handleAuth} className="auth-form">
                     {!isLogin && (
@@ -123,8 +126,17 @@ export default function Auth() {
                         />
                     </div>
 
-                    <button type="submit" className="submit-btn" disabled={loading}>
-                        {loading ? 'Caricamento...' : (isLogin ? 'Entra in PitGo' : 'Crea Account Officina')}
+                    <button
+                        type="submit"
+                        className={`submit-btn ${successMsg ? 'btn-success' : ''}`}
+                        disabled={loading || !!successMsg}
+                    >
+                        {loading
+                            ? 'Caricamento...'
+                            : successMsg
+                                ? 'Email inviata ✓'
+                                : (isLogin ? 'Entra in PitGo' : 'Crea Account Officina')
+                        }
                     </button>
                 </form>
             </div>

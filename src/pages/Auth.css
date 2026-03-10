@@ -147,3 +147,22 @@ body {
     margin-bottom: 20px;
     font-size: 0.9rem;
 }
+
+.success-box {
+    background: rgba(48, 209, 88, 0.1);
+    border: 1px solid rgba(48, 209, 88, 0.3);
+    color: #30D158;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.submit-btn.btn-success {
+    background: #1C1C1E;
+    color: #30D158;
+    border: 1px solid #30D158;
+    box-shadow: none;
+    opacity: 1;
+}
