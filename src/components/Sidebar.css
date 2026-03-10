@@ -1,0 +1,119 @@
+.sidebar {
+    width: 260px;
+    background-color: #1C1C1E;
+    /* Come menuRow e container in Expo */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sidebar-brand {
+    font-size: 2rem;
+    font-family: 'Arial Black', Impact, sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    letter-spacing: -1px;
+    margin-bottom: 30px;
+    padding-left: 10px;
+}
+
+.shop-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 40px;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 15px;
+}
+
+.shop-avatar {
+    width: 40px;
+    height: 40px;
+    background: #30D158;
+    color: #000;
+    font-weight: bold;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+.shop-details h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #fff;
+}
+
+.shop-details p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #8E8E93;
+    margin-top: 3px;
+}
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+}
+
+.menu-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: transparent;
+    border: none;
+    padding: 15px;
+    color: #8E8E93;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.menu-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.menu-btn.active {
+    background: #30D158;
+    color: #000;
+}
+
+.sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.logout-btn {
+    width: 100%;
+    background: transparent;
+    border: 1px solid #48484a;
+    color: #ff453a;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background: rgba(255, 69, 58, 0.1);
+    border-color: #ff453a;
+}
+
+.version-txt {
+    color: #2C2C2E;
+    font-size: 11px;
+    letter-spacing: 2px;
+}
