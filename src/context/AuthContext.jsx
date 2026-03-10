@@ -52,8 +52,12 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    const signOut = async () => {
+        await supabase.auth.signOut();
+    };
+
     return (
-        <AuthContext.Provider value={{ user, shop, loading }}>
+        <AuthContext.Provider value={{ user, shop, loading, signOut }}>
             {!loading && children}
         </AuthContext.Provider>
     );
