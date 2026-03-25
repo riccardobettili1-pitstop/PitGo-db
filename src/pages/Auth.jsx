@@ -11,7 +11,7 @@ export default function Auth() {
     // Dati form
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [nomeOfficina, setNomeOfficina] = useState('');
+    const [nomeSalone, setNomeSalone] = useState('');
 
     const handleAuth = async (e) => {
         e.preventDefault();
@@ -37,12 +37,12 @@ export default function Auth() {
 
                 if (authError) throw authError;
 
-                // 2. Crea il record in 'shops' collegato
-                const { error: shopError } = await supabase.from('shops').insert([
+                // 2. Crea il record in 'salons' collegato
+                const { error: shopError } = await supabase.from('salons').insert([
                     {
                         auth_user_id: authData.user?.id || 'pending',
                         email: email,
-                        nome_officina: nomeOfficina,
+                        nome_salone: nomeSalone,
                         // Genera un QR code base
                         codice_qr_url: Math.random().toString(36).substring(2, 10),
                     }
@@ -62,10 +62,10 @@ export default function Auth() {
         <div className="auth-container">
             <div className="glass-panel">
                 <h1 className="brand-logo">
-                    <span className="logo-pit">Pit</span>
-                    <span className="logo-go">Go</span>
+                    <span className="logo-pit">Barber</span>
+                    <span className="logo-go">App</span>
                 </h1>
-                <p className="subtitle">La tua officina a portata di click</p>
+                <p className="subtitle">Il tuo Salone a portata di click</p>
 
                 <div className="auth-toggle">
                     <button
@@ -90,14 +90,14 @@ export default function Auth() {
                 <form onSubmit={handleAuth} className="auth-form">
                     {!isLogin && (
                         <div className="input-group">
-                            <label htmlFor="nomeOfficina">Nome Officina</label>
+                            <label htmlFor="nomeSalone">Nome Salone</label>
                             <input
-                                id="nomeOfficina"
+                                id="nomeSalone"
                                 type="text"
                                 required
-                                placeholder="Es. Autofficina Rossi"
-                                value={nomeOfficina}
-                                onChange={(e) => setNomeOfficina(e.target.value)}
+                                placeholder="Es. Barberia Rossi"
+                                value={nomeSalone}
+                                onChange={(e) => setNomeSalone(e.target.value)}
                             />
                         </div>
                     )}
@@ -135,7 +135,7 @@ export default function Auth() {
                             ? 'Caricamento...'
                             : successMsg
                                 ? 'Email inviata ✓'
-                                : (isLogin ? 'Entra in PitGo' : 'Crea Account Officina')
+                                : (isLogin ? 'Entra in BarberApp' : 'Crea Account Salone')
                         }
                     </button>
                 </form>

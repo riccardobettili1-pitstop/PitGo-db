@@ -4,6 +4,10 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 
 import Auth from './pages/Auth';
 import Dashboard from './pages/Dashboard';
+import BookingPWA from './pages/BookingPWA';
+import Calendar from './pages/Calendar';
+import StaffManager from './pages/StaffManager';
+import Finances from './pages/Finances';
 import './index.css';
 
 // Componente di protezione route
@@ -29,17 +33,20 @@ const PublicRoute = ({ children }) => {
 function AppRoutes() {
   return (
     <Routes>
+      {/* Rotta PWA Pubblica per i Clienti */}
+      <Route path="/prenota/:codiceUrl" element={<BookingPWA />} />
+
       <Route path="/auth" element={
         <PublicRoute>
           <Auth />
         </PublicRoute>
       } />
 
-      <Route path="/dashboard" element={
-        <ProtectedRoute>
-          <Dashboard />
-        </ProtectedRoute>
-      } />
+      <Route path="/" element={<Navigate to="/dashboard" />} />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/calendario" element={<ProtectedRoute><Calendar /></ProtectedRoute>} />
+      <Route path="/staff" element={<ProtectedRoute><StaffManager /></ProtectedRoute>} />
+      <Route path="/finanze" element={<ProtectedRoute><Finances /></ProtectedRoute>} />
 
       {/* Route di default */}
       <Route path="*" element={<Navigate to="/dashboard" />} />

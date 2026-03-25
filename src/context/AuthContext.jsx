@@ -37,16 +37,32 @@ export const AuthProvider = ({ children }) => {
 
     const fetchShopDetails = async (userId) => {
         try {
-            const { data, error } = await supabase
-                .from('shops')
+            // First check if user is Admin (Owner in salons)
+            const { data: adminData } = await supabase
+                .from('salons')
                 .select('*')
                 .eq('auth_user_id', userId)
-                .single();
+                .maybeSingle();
 
-            if (error) throw error;
-            setShop(data);
+            if (adminData) {
+                setShop({ ...adminData, role: 'admin' });
+                return;
+            }
+
+            // If not admin, check if user is Staff in barbers
+            const { data: staffData } = await supabase
+                .from('barbers')
+                .select('*, salons(*)')
+                .eq('auth_user_id', userId)
+                .maybeSingle();
+
+            if (staffData && staffData.salons) {
+                setShop({ ...staffData.salons, role: 'staff', barberDetails: staffData });
+            } else {
+                setShop(null); // No shop found for this user
+            }
         } catch (error) {
-            console.error('Errore recupero dettagli officina:', error.message);
+            console.error('Errore recupero dettagli salone:', error.message);
         } finally {
             setLoading(false);
         }
